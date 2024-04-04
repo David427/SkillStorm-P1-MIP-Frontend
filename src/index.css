@@ -1,0 +1,5 @@
+.radix-themes {
+  --mvideo-brand: #77b900;
+  --accent-9: var(--mvideo-brand);
+  --default-font-family: 'Inter Variable', sans-serif;
+}
