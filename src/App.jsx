@@ -1,17 +1,15 @@
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { warehouseLoader } from './pages/WarehousePage';
-import { unitLoader } from './pages/UnitPage';
 import MainLayout from './layouts/MainLayout';
+import CreateUnitPage from './pages/CreateUnitPage';
 import CreateWarehousePage from './pages/CreateWarehousePage';
 import MainPage from './pages/MainPage';
 import NotFoundPage from './pages/NotFoundPage';
-import UpdateWarehousePage from './pages/UpdateWarehousePage';
-import WarehousePage from './pages/WarehousePage';
-import CreateUnitPage from './pages/CreateUnitPage';
-import UnitPage from './pages/UnitPage';
+import UnitPage, { unitLoader } from './pages/UnitPage';
 import UpdateUnitPage from './pages/UpdateUnitPage';
+import UpdateWarehousePage from './pages/UpdateWarehousePage';
+import WarehousePage, { warehouseLoader } from './pages/WarehousePage';
 
 function App() {
   // API requests could/should be in their own component(s), but these props are drilled down to both Warehouse and Unit components
@@ -33,9 +31,11 @@ function App() {
         toast.success('Warehouse added successfully');
       } else if (response.status === 422) {
         response.text().then((text) => {
-          toast.error(`${text} Provide a unique warehouse ID code`);
+          toast.error(`${text}`);
         });
       }
+
+      return;
     } catch (err) {
       toast.error('Error adding warehouse, please try again');
     }
@@ -72,7 +72,7 @@ function App() {
         toast.success('Warehouse deleted successfully');
         // Cascade delete in the backend is not functioning; don't want to create orphan records
       } else if ((await response.text()).includes('foreign key')) {
-        toast.error('That warehouse still has units in its stock. Please delete them first');
+        toast.error(`${idCode} still has units in its stock. Please delete them first`);
       }
       return;
     } catch (err) {
@@ -127,17 +127,14 @@ function App() {
   };
 
   // DELETE
-  const deleteUnit = async (idCode) => {
+  const deleteUnit = async (id) => {
     try {
-      const response = await fetch(`${BASE_URL}/units/${idCode}`, {
+      const response = await fetch(`${BASE_URL}/units/${id}`, {
         method: 'DELETE'
       });
 
       if (response.status === 204) {
         toast.success('Unit deleted successfully');
-        // Cascade delete in the backend is not functioning; don't want to create orphan records
-      } else if ((await response.text()).includes('foreign key')) {
-        toast.error('That unit still has units in its stock. Please delete them first');
       }
       return;
     } catch (err) {

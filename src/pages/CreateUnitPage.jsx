@@ -1,4 +1,4 @@
-import { Box, Button, Container, Flex, Heading, Select, Text, TextField } from '@radix-ui/themes';
+import { Box, Button, Container, Flex, Heading, Section, Select, Text, TextField } from '@radix-ui/themes';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -28,16 +28,17 @@ const CreateUnitPage = ({ createUnit }) => {
   };
 
   return (
-    <Container size="2" mt="8">
-      <Box maxWidth="100%">
+    <Container size="1" mt="8">
+      <Section size="1" style={{ backgroundColor: 'var(--gray-9)', borderRadius: 'var(--radius-3)' }}>
+        <Heading align="center" size="7" style={{ color: 'black' }}>
+          Create Unit
+        </Heading>
+      </Section>
+      <Box maxWidth="100%" mt="4">
         <form onSubmit={handleSubmit}>
-          <Heading align="center" size="7" mb="6">
-            Add Unit
-          </Heading>
-
           <Flex direction="column" gap="3">
             <label htmlFor="new-warehouse-id-code">
-              <Text as="div" size="2" mb="1" weight="bold">
+              <Text as="div" size="4" mb="1" weight="bold">
                 Warehouse ID Code
               </Text>
               <TextField.Root
@@ -48,15 +49,23 @@ const CreateUnitPage = ({ createUnit }) => {
                 onChange={(e) => setWarehouseIdCode(e.target.value)}
               />
             </label>
-            <Select.Root id="new-unit-series" value={series} onValueChange={setSeries}>
-              <Select.Trigger />
-              <Select.Content>
-                <Select.Group>
-                  <Select.Item value="RGX">RGX</Select.Item>
-                </Select.Group>
-              </Select.Content>
-            </Select.Root>
+            <label htmlFor="new-unit-series">
+              <Text as="div" size="4" mb="1" weight="bold">
+                Series
+              </Text>
+              <Select.Root id="new-unit-series" value={series} onValueChange={setSeries}>
+                <Select.Trigger />
+                <Select.Content>
+                  <Select.Group>
+                    <Select.Item value="RGX">RGX</Select.Item>
+                  </Select.Group>
+                </Select.Content>
+              </Select.Root>
+            </label>
             <label htmlFor="new-unit-model">
+              <Text as="div" size="4" mb="1" weight="bold">
+                Model
+              </Text>
               <Select.Root id="new-unit-model" value={model} onValueChange={setModel}>
                 <Select.Trigger />
                 <Select.Content>
@@ -70,14 +79,16 @@ const CreateUnitPage = ({ createUnit }) => {
             </label>
           </Flex>
 
-          <Flex gap="3" mt="4" justify="end">
+          <Flex align="center" gap="3" mt="4" justify="center">
             <Link to="/">
-              <Button variant="soft" color="gray" type="reset">
+              <Button size="4" color="gray" style={{ color: 'black' }} type="reset">
                 Cancel
               </Button>
             </Link>
 
-            <Button type="submit">Save</Button>
+            <Button size="4" type="submit">
+              Save
+            </Button>
           </Flex>
         </form>
       </Box>

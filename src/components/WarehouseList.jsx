@@ -1,17 +1,17 @@
-import { Box, Button, Flex } from '@radix-ui/themes';
+import { Box, Button, Flex, Heading, IconButton, Tooltip } from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Spinner from './Spinner';
 import WarehouseCard from './WarehouseCard';
+import { FaPlusCircle } from 'react-icons/fa';
 
-const WarehouseList = ({ changeSelectedWarehouse }) => {
+const WarehouseList = ({ changeSelectedWarehouse, selectedWarehouse }) => {
   const [warehouses, setWarehouses] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const BASE_URL = 'http://localhost:8080';
 
-  // Read all
   useEffect(() => {
     const getWarehouses = async () => {
       try {
@@ -26,7 +26,7 @@ const WarehouseList = ({ changeSelectedWarehouse }) => {
       }
     };
 
-    getWarehouses();
+    setTimeout(getWarehouses, 800);
   }, [warehouses]);
 
   return (
@@ -36,27 +36,30 @@ const WarehouseList = ({ changeSelectedWarehouse }) => {
           <Spinner loading={loading} />
         ) : (
           <>
-            <Box align="center">
-              <Link to="/create-warehouse">
-                <Button size="4" style={{ backgroundColor: '#77b900', cursor: 'pointer' }}>
-                  ADD WAREHOUSE
-                </Button>
-              </Link>
-            </Box>
+            <Flex align="center" gap="4" justify="between">
+              <Heading align="center" size="8">
+                Warehouses
+              </Heading>
+              <Box>
+                <Link to="/create-warehouse">
+                  <Tooltip content="Create a new warehouse">
+                    <IconButton size="4">
+                      <FaPlusCircle size="36px" />
+                    </IconButton>
+                  </Tooltip>
+                </Link>
+              </Box>
+            </Flex>
             <Flex direction="column" gap="1">
               {warehouses.map((warehouse) => (
                 <WarehouseCard
-                  warehouses={warehouses}
                   key={warehouse.idCode}
                   idCode={warehouse.idCode}
-                  streetAddress={warehouse.streetAddress}
-                  city={warehouse.city}
-                  state={warehouse.state}
-                  zipCode={warehouse.zipCode}
                   squareFt={warehouse.squareFt}
                   stock={warehouse.stock}
                   capacity={warehouse.capacity}
                   changeSelectedWarehouse={changeSelectedWarehouse}
+                  selectedWarehouse={selectedWarehouse}
                 />
               ))}
             </Flex>

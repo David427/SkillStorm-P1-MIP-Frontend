@@ -1,4 +1,4 @@
-import { Box, Button, Container, Flex, Heading, Select, Text, TextField } from '@radix-ui/themes';
+import { Box, Button, Container, Flex, Heading, Section, Select, Text, TextField } from '@radix-ui/themes';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ const CreateWarehousePage = ({ createWarehouse }) => {
   const [city, setCity] = useState('');
   const [state, setState] = useState('AL');
   const [zipCode, setZipCode] = useState('');
-  const [squareFt, setSquareFt] = useState(0);
+  const [squareFt, setSquareFt] = useState('');
 
   // Stock is not chosen at creation; it will be 0
   // Capacity is calculated from sq ft (arbitrarily divided by 400)
@@ -37,22 +37,23 @@ const CreateWarehousePage = ({ createWarehouse }) => {
   };
 
   return (
-    <Container size="2" mt="8">
-      <Box maxWidth="100%">
+    <Container size="1" mt="8">
+      <Section size="1" style={{ backgroundColor: 'var(--gray-9)', borderRadius: 'var(--radius-3)' }}>
+        <Heading align="center" size="7" style={{ color: 'black' }}>
+          Create Warehouse
+        </Heading>
+      </Section>
+      <Box maxWidth="100%" mt="4">
         <form onSubmit={handleSubmit}>
-          <Heading align="center" size="7" mb="6">
-            Add Warehouse
-          </Heading>
-
           <Flex direction="column" gap="3">
             <label htmlFor="new-id-code">
-              <Text as="div" size="2" mb="1" weight="bold">
+              <Text as="div" size="4" mb="1" weight="bold">
                 ID Code
               </Text>
               <TextField.Root id="new-id-code" placeholder="Enter a new ID code" required value={idCode} onChange={(e) => setIdCode(e.target.value)} />
             </label>
             <label htmlFor="new-street-address">
-              <Text as="div" size="2" mb="1" weight="bold">
+              <Text as="div" size="4" mb="1" weight="bold">
                 Street Address
               </Text>
               <TextField.Root
@@ -64,13 +65,13 @@ const CreateWarehousePage = ({ createWarehouse }) => {
               />
             </label>
             <label htmlFor="new-city">
-              <Text as="div" size="2" mb="1" weight="bold">
+              <Text as="div" size="4" mb="1" weight="bold">
                 City
               </Text>
-              <TextField.Root id="new-city" placeholder="Enter the city" required value={city} onChange={(e) => setCity(e.target.value)} />
+              <TextField.Root required id="new-city" placeholder="Enter the city" value={city} onChange={(e) => setCity(e.target.value)} />
             </label>
             <label htmlFor="new-state">
-              <Text as="div" size="2" mb="1" weight="bold">
+              <Text as="div" size="4" mb="1" weight="bold">
                 State
               </Text>
               <Select.Root id="new-state" value={state} onValueChange={setState}>
@@ -130,27 +131,43 @@ const CreateWarehousePage = ({ createWarehouse }) => {
               </Select.Root>
             </label>
             <label htmlFor="new-zip-code">
-              <Text id="new-zip-code" as="div" size="2" mb="1" weight="bold">
+              <Text id="new-zip-code" as="div" size="4" mb="1" weight="bold">
                 Zip Code
               </Text>
-              <TextField.Root placeholder="Enter the ZIP code" value={zipCode} onChange={(e) => setZipCode(e.target.value)} />
+              <TextField.Root
+                placeholder="Enter the ZIP code"
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
+                minLength="5"
+                maxLength="5"
+                pattern="^[0-9]+$"
+                required
+              />
             </label>
             <label htmlFor="new-sq-ft">
-              <Text id="new-sq-ft" as="div" size="2" mb="1" weight="bold">
+              <Text id="new-sq-ft" as="div" size="4" mb="1" weight="bold">
                 Square Footage
               </Text>
-              <TextField.Root placeholder="Enter the usable square footage" value={squareFt} onChange={(e) => setSquareFt(e.target.value)} />
+              <TextField.Root
+                required
+                placeholder="Enter the usable square footage"
+                value={squareFt}
+                onChange={(e) => setSquareFt(e.target.value)}
+                pattern="^[0-9]+$"
+              />
             </label>
           </Flex>
 
-          <Flex gap="3" mt="4" justify="end">
+          <Flex align="center" gap="3" mt="4" justify="center">
             <Link to="/">
-              <Button variant="soft" color="gray" type="reset">
+              <Button size="4" color="gray" style={{ color: 'black' }} type="reset">
                 Cancel
               </Button>
             </Link>
 
-            <Button type="submit">Save</Button>
+            <Button size="4" type="submit">
+              Save
+            </Button>
           </Flex>
         </form>
       </Box>

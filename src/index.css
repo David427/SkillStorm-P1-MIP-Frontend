@@ -1,5 +1,15 @@
 .radix-themes {
   --mvideo-brand: #77b900;
+  --mvideo-red: #d62d2d;
   --accent-9: var(--mvideo-brand);
-  --default-font-family: 'Inter Variable', sans-serif;
+  --gray-9: var(--slate-9);
+  --default-font-family: Roboto, 'sans-serif';
+}
+
+.rt-Button:where(:not(.rt-variant-ghost)) {
+  font-weight: var(--font-weight-bold);
+}
+
+body {
+  overflow: hidden;
 }

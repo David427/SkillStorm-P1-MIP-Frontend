@@ -7,7 +7,7 @@ import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Theme appearance="dark" accentColor="lime" grayColor="sage">
+    <Theme appearance="dark" accentColor="lime" grayColor="sage" scaling="110%">
       <App />
       {/* <ThemePanel /> */}
     </Theme>

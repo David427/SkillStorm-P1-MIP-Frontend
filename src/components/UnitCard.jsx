@@ -1,9 +1,8 @@
-import { Box, Button, Card, Flex, Heading, IconButton, Text } from '@radix-ui/themes';
+import { Box, Button, Card, Flex, Heading, Strong, Text } from '@radix-ui/themes';
 import React from 'react';
-import { BsPencilSquare } from 'react-icons/bs';
-import { TbTransferOut, TbTrashX } from 'react-icons/tb';
+import { Link } from 'react-router-dom';
 
-const UnitCard = ({ id, series, model, vram, factoryClock, videoCores, aiCores, powerDraw, warehouseIdCode }) => {
+const UnitCard = ({ id, series, model, warehouseIdCode }) => {
   return (
     <>
       <Card size="1">
@@ -13,32 +12,22 @@ const UnitCard = ({ id, series, model, vram, factoryClock, videoCores, aiCores, 
           </Box>
 
           <Box width="36%">
-            <Text size="5" mt="-2">
-              {warehouseIdCode}
-            </Text>
+            <Strong>
+              <Text size="5" mt="-2">
+                {warehouseIdCode}
+              </Text>
+            </Strong>
           </Box>
 
           <Box width="60%">
             <Text size="5">{`${series} ${model}`}</Text>
           </Box>
 
-          <Box align="center">
-            <IconButton color="gray" style={{ color: '#77b900' }} title="Transfer" variant="ghost">
-              <TbTransferOut size="36px" />
-            </IconButton>
-          </Box>
-
-          <Box align="center">
-            <IconButton color="gray" style={{ color: '#77b900' }} title="Edit" variant="ghost">
-              <BsPencilSquare size="32px" />
-            </IconButton>
-          </Box>
-
-          <Box align="center">
-            <IconButton color="gray" style={{ color: '#d62d2d' }} title="Delete" variant="ghost">
-              <TbTrashX size="36px" />
-            </IconButton>
-          </Box>
+          <Flex justify="center" gap="4">
+            <Link to={`units/${id}`}>
+              <Button size="4">Manage</Button>
+            </Link>
+          </Flex>
         </Flex>
       </Card>
     </>

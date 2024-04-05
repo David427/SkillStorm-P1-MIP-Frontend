@@ -1,13 +1,12 @@
-import { AlertDialog, Box, Button, Container, Flex, Heading, Section, Strong, Text } from '@radix-ui/themes';
+import { AlertDialog, Box, Button, Container, Flex, Heading, Section, Strong, Table, Text } from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 import { Link, useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import warehouseDefaultImage from '../assets/warehouse-image-default.jpg';
 import warehouseImage01 from '../assets/warehouse-image-01.jpg';
 import warehouseImage02 from '../assets/warehouse-image-02.jpg';
 import warehouseImage03 from '../assets/warehouse-image-03.jpg';
-import Spinner from '../components/Spinner';
-import UnitStockCard from '../components/UnitStockCard';
+import warehouseImageGeneric from '../assets/warehouse-image-default.jpg';
 
 const WarehousePage = ({ deleteWarehouse }) => {
   const navigate = useNavigate();
@@ -38,10 +37,11 @@ const WarehousePage = ({ deleteWarehouse }) => {
     determineGenericWarehouse();
   }, []);
 
-  const handleDelete = (idCode) => {
+  const handleDelete = () => {
     deleteWarehouse(warehouse.idCode);
     navigate('/');
   };
+
   const determineGenericWarehouse = () => {
     if (warehouse.idCode === 'BOS-WH-01' || warehouse.idCode === 'BOS-WH-02' || warehouse.idCode === 'BOS-WH-03') {
       setGenericWarehouse(false);
@@ -51,41 +51,80 @@ const WarehousePage = ({ deleteWarehouse }) => {
   return (
     <>
       <Container size="2">
-        <Flex direction="column" justify="center">
-          <Section size="1" style={{ backgroundColor: 'var(--slate-8)', borderRadius: 'var(--radius-3)' }}>
-            <Heading align="center">{warehouse.idCode}</Heading>
+        <Flex direction="column" justify="between">
+          <Section size="1" style={{ backgroundColor: 'var(--gray-9)', borderRadius: 'var(--radius-3)' }}>
+            <Heading align="center" size="7" style={{ color: 'black' }}>
+              {warehouse.idCode}
+            </Heading>
           </Section>
-          <Box>
-            <Text as="div" align="center" size="5" width="100%" my="2">
-              <Strong>
-                {warehouse.streetAddress}
-                <Text as="div">
-                  {warehouse.city}, {warehouse.state} {warehouse.zipCode}
-                </Text>
-              </Strong>
-            </Text>
-          </Box>
-          <Box align="center">
+          <Flex align="center" justify="start" mt="4" mb="0" gap="4">
+            <Box align="right" width="40%">
+              <FaMapMarkerAlt size="50px" style={{ color: 'var(--red-9)', cursor: 'pointer' }} title="Open address in Google Maps" />
+            </Box>
+            <Box align="left" width="40%">
+              <Text as="div" size="5" width="100%" my="2">
+                <Strong>
+                  {warehouse.streetAddress}
+                  <Text as="div">
+                    {warehouse.city}, {warehouse.state} {warehouse.zipCode}
+                  </Text>
+                </Strong>
+              </Text>
+            </Box>
+          </Flex>
+          <Box align="center" my="4">
             {warehouse.idCode === 'BOS-WH-01' && <img src={warehouseImage01} style={{ borderRadius: '6px' }}></img>}
             {warehouse.idCode === 'BOS-WH-02' && <img src={warehouseImage02} style={{ borderRadius: '6px' }}></img>}
             {warehouse.idCode === 'BOS-WH-03' && <img src={warehouseImage03} style={{ borderRadius: '6px' }}></img>}
-            {genericWarehouse && <img src={warehouseDefaultImage} style={{ borderRadius: '6px' }}></img>}
+            {genericWarehouse && <img src={warehouseImageGeneric} style={{ borderRadius: '6px' }}></img>}
           </Box>
-          <Box align="center" my="4">
-            <Heading align="center">Current Stock</Heading>
+
+          <Box align="center">
+            <Heading align="center">Inventory Information</Heading>
+            <hr style={{ width: '50%', height: '6px', backgroundColor: 'var(--gray-9)', border: 'none', borderRadius: 'var(--radius-3)' }}></hr>
           </Box>
-          {loading ? (
-            <Spinner loading={loading} />
-          ) : (
-            <Flex direction="column" gap="1">
+
+          <Table.Root>
+            <Table.Header>
+              <Table.Row>
+                <Table.ColumnHeaderCell align="center">
+                  <Text size="4" style={{ color: 'var(--mvideo-brand)' }}>
+                    Series
+                  </Text>
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell align="left">
+                  <Text size="4" style={{ color: 'var(--mvideo-brand)' }}>
+                    Model
+                  </Text>
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell align="center">
+                  <Text size="4" style={{ color: 'var(--mvideo-brand)' }}>
+                    Quantity
+                  </Text>
+                </Table.ColumnHeaderCell>
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
               {stock.map((unit) => (
-                <UnitStockCard key={`${warehouse.idCode}-${unit.series}-${unit.model}`} series={unit.series} model={unit.model} stock={unit.stock} />
+                <Table.Row key={`${warehouse.idCode}-${unit.series}-${unit.model}`}>
+                  <Table.Cell align="center">
+                    <Text size="3">{unit.series}</Text>
+                  </Table.Cell>
+                  <Table.Cell align="left">
+                    <Text size="3">{unit.model}</Text>
+                  </Table.Cell>
+                  <Table.Cell align="center">
+                    <Text size="3">{unit.stock}</Text>
+                  </Table.Cell>
+                </Table.Row>
               ))}
-            </Flex>
-          )}
+            </Table.Body>
+          </Table.Root>
+
           <Flex align="center" justify="center" gap="4" my="4">
             <Link to="/">
-              <Button size="4" style={{ backgroundColor: 'var(--slate-8)' }}>
+              <Button size="4" color="gray" style={{ color: 'black' }}>
                 Back
               </Button>
             </Link>
@@ -94,7 +133,7 @@ const WarehousePage = ({ deleteWarehouse }) => {
             </Link>
             <AlertDialog.Root>
               <AlertDialog.Trigger>
-                <Button size="4" style={{ backgroundColor: '#d62d2d' }}>
+                <Button size="4" color="red" style={{ color: 'black' }}>
                   Delete
                 </Button>
               </AlertDialog.Trigger>
@@ -103,10 +142,10 @@ const WarehousePage = ({ deleteWarehouse }) => {
 
                 <Flex gap="3" mt="4" justify="end">
                   <AlertDialog.Cancel>
-                    <Button style={{ backgroundColor: 'var(--slate-8)' }}>Cancel</Button>
+                    <Button style={{ backgroundColor: 'var(--gray-9)' }}>Cancel</Button>
                   </AlertDialog.Cancel>
                   <AlertDialog.Action>
-                    <Button style={{ backgroundColor: '#d62d2d' }} onClick={handleDelete}>
+                    <Button color="red" style={{ color: 'black' }} onClick={handleDelete}>
                       Delete
                     </Button>
                   </AlertDialog.Action>

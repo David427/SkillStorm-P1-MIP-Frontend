@@ -1,6 +1,7 @@
-import { Box, Button, Container, Flex, Heading, Select, Text, TextField } from '@radix-ui/themes';
+import { Box, Button, Container, Flex, Heading, Section, Select, Text, TextField } from '@radix-ui/themes';
 import React, { useState } from 'react';
 import { Link, useLoaderData, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const UpdateWarehousePage = ({ updateWarehouse }) => {
   // Fetching a single warehouse by id
@@ -33,27 +34,33 @@ const UpdateWarehousePage = ({ updateWarehouse }) => {
       capacity
     };
 
+    if (stock > capacity) {
+      toast.error('The current stock cannot fit in this new square footage');
+      return;
+    }
+
     updateWarehouse(updatedWarehouse);
     return navigate('/');
   };
 
   return (
-    <Container size="2" mt="8">
-      <Box maxWidth="100%">
+    <Container size="1" mt="8">
+      <Section size="1" style={{ backgroundColor: 'var(--gray-9)', borderRadius: 'var(--radius-3)' }}>
+        <Heading align="center" size="7" style={{ color: 'black' }}>
+          Update Warehouse
+        </Heading>
+      </Section>
+      <Box maxWidth="100%" mt="4">
         <form onSubmit={handleSubmit}>
-          <Heading align="center" size="7" mb="6">
-            Update Warehouse
-          </Heading>
-
           <Flex direction="column" gap="3">
             <label htmlFor="update-id-code">
-              <Text as="div" size="2" mb="1" weight="bold">
+              <Text as="div" size="4" mb="1" weight="bold">
                 ID Code
               </Text>
               <TextField.Root id="update-id-code" placeholder={warehouse.idCode} disabled />
             </label>
             <label htmlFor="update-street-address">
-              <Text as="div" size="2" mb="1" weight="bold">
+              <Text as="div" size="4" mb="1" weight="bold">
                 Street Address
               </Text>
               <TextField.Root
@@ -65,13 +72,13 @@ const UpdateWarehousePage = ({ updateWarehouse }) => {
               />
             </label>
             <label htmlFor="update-city">
-              <Text as="div" size="2" mb="1" weight="bold">
+              <Text as="div" size="4" mb="1" weight="bold">
                 City
               </Text>
               <TextField.Root id="update-city" placeholder={warehouse.city} required value={city} onChange={(e) => setCity(e.target.value)} />
             </label>
             <label htmlFor="update-state">
-              <Text as="div" size="2" mb="1" weight="bold">
+              <Text as="div" size="4" mb="1" weight="bold">
                 State
               </Text>
               <Select.Root id="update-state" value={state} onValueChange={setState}>
@@ -131,27 +138,36 @@ const UpdateWarehousePage = ({ updateWarehouse }) => {
               </Select.Root>
             </label>
             <label htmlFor="update-zip-code">
-              <Text id="update-zip-code" as="div" size="2" mb="1" weight="bold">
+              <Text id="update-zip-code" as="div" size="4" mb="1" weight="bold">
                 Zip Code
               </Text>
-              <TextField.Root placeholder={warehouse.zipCode} value={zipCode} onChange={(e) => setZipCode(e.target.value)} />
+              <TextField.Root
+                placeholder={warehouse.zipCode}
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
+                type="number"
+                minLength="5"
+                maxLength="5"
+              />
             </label>
             <label htmlFor="update-sq-ft">
-              <Text id="update-sq-ft" as="div" size="2" mb="1" weight="bold">
+              <Text id="update-sq-ft" as="div" size="4" mb="1" weight="bold">
                 Square Footage
               </Text>
-              <TextField.Root placeholder={warehouse.squareFt} value={squareFt} onChange={(e) => setSquareFt(e.target.value)} />
+              <TextField.Root placeholder={warehouse.squareFt} value={squareFt} onChange={(e) => setSquareFt(e.target.value)} type="number" />
             </label>
           </Flex>
 
-          <Flex gap="3" mt="4" justify="end">
+          <Flex align="center" gap="3" mt="4" justify="center">
             <Link to={`/warehouses/${idCode}`}>
-              <Button variant="soft" color="gray" type="reset">
+              <Button size="4" color="gray" style={{ color: 'black' }} type="reset">
                 Cancel
               </Button>
             </Link>
 
-            <Button type="submit">Save</Button>
+            <Button size="4" type="submit">
+              Save
+            </Button>
           </Flex>
         </form>
       </Box>

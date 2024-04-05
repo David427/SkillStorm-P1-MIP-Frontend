@@ -5,14 +5,14 @@ import MVIDEOIcon from '../assets/mvideo-logo.png';
 const Header = () => {
   return (
     <>
-      <Section mb="4" p="4" style={{ backgroundColor: 'var(--slate-8)', borderRadius: 'var(--radius-3)' }}>
+      <Section mb="4" p="4" style={{ backgroundColor: 'var(--gray-9)', borderRadius: 'var(--radius-3)' }}>
         <Flex align="center" gap="4" justify="center">
           <Link to="/">
             <img height="80px" src={MVIDEOIcon}></img>
           </Link>
           <Box>
-            <Heading align="center" size="9">
-              MVIDEO Inventory Platform
+            <Heading align="center" size="9" style={{ color: 'black' }}>
+              MVIDEO™ Inventory Platform
             </Heading>
           </Box>
         </Flex>
