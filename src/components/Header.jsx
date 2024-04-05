@@ -5,7 +5,7 @@ import MVIDEOIcon from '../assets/mvideo-logo.png';
 const Header = () => {
   return (
     <>
-      <Section mb="4" p="4" style={{ backgroundColor: 'var(--gray-9)', borderRadius: 'var(--radius-3)' }}>
+      <Section mb="4" p="4" style={{ backgroundColor: 'var(--gray-9)', borderBottom: '4px solid var(--accent-9)' }}>
         <Flex align="center" gap="4" justify="center">
           <Link to="/">
             <img height="80px" src={MVIDEOIcon}></img>

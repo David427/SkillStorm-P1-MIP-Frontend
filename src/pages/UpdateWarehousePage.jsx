@@ -81,7 +81,7 @@ const UpdateWarehousePage = ({ updateWarehouse }) => {
               <Text as="div" size="4" mb="1" weight="bold">
                 State
               </Text>
-              <Select.Root id="update-state" value={state} onValueChange={setState}>
+              <Select.Root id="update-state" value={state} onValueChange={setState} required>
                 <Select.Trigger />
                 <Select.Content>
                   <Select.Group>
@@ -145,16 +145,17 @@ const UpdateWarehousePage = ({ updateWarehouse }) => {
                 placeholder={warehouse.zipCode}
                 value={zipCode}
                 onChange={(e) => setZipCode(e.target.value)}
-                type="number"
                 minLength="5"
                 maxLength="5"
+                pattern="^[0-9]+$"
+                required
               />
             </label>
             <label htmlFor="update-sq-ft">
               <Text id="update-sq-ft" as="div" size="4" mb="1" weight="bold">
                 Square Footage
               </Text>
-              <TextField.Root placeholder={warehouse.squareFt} value={squareFt} onChange={(e) => setSquareFt(e.target.value)} type="number" />
+              <TextField.Root placeholder={warehouse.squareFt} value={squareFt} onChange={(e) => setSquareFt(e.target.value)} pattern="^[0-9]+$" required />
             </label>
           </Flex>
 

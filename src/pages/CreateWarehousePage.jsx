@@ -12,7 +12,7 @@ const CreateWarehousePage = ({ createWarehouse }) => {
 
   // Stock is not chosen at creation; it will be 0
   // Capacity is calculated from sq ft (arbitrarily divided by 400)
-  // If I could figure out pagination on the frontend, it would be more realistic :(
+  // If I could figure out how to read paginated response bodies in the frontend, it would be more realistic :(
   const stock = 0;
   const capacity = Math.floor(squareFt / 400);
 
@@ -50,7 +50,7 @@ const CreateWarehousePage = ({ createWarehouse }) => {
               <Text as="div" size="4" mb="1" weight="bold">
                 ID Code
               </Text>
-              <TextField.Root id="new-id-code" placeholder="Enter a new ID code" required value={idCode} onChange={(e) => setIdCode(e.target.value)} />
+              <TextField.Root id="new-id-code" placeholder="CTY-WH-01" required value={idCode} onChange={(e) => setIdCode(e.target.value)} />
             </label>
             <label htmlFor="new-street-address">
               <Text as="div" size="4" mb="1" weight="bold">
@@ -58,7 +58,7 @@ const CreateWarehousePage = ({ createWarehouse }) => {
               </Text>
               <TextField.Root
                 id="new-street-address"
-                placeholder="Enter the address"
+                placeholder="100 Example Street"
                 required
                 value={streetAddress}
                 onChange={(e) => setStreetAddress(e.target.value)}
@@ -68,7 +68,7 @@ const CreateWarehousePage = ({ createWarehouse }) => {
               <Text as="div" size="4" mb="1" weight="bold">
                 City
               </Text>
-              <TextField.Root required id="new-city" placeholder="Enter the city" value={city} onChange={(e) => setCity(e.target.value)} />
+              <TextField.Root required id="new-city" placeholder="Anytown" value={city} onChange={(e) => setCity(e.target.value)} />
             </label>
             <label htmlFor="new-state">
               <Text as="div" size="4" mb="1" weight="bold">
@@ -135,7 +135,7 @@ const CreateWarehousePage = ({ createWarehouse }) => {
                 Zip Code
               </Text>
               <TextField.Root
-                placeholder="Enter the ZIP code"
+                placeholder="12345"
                 value={zipCode}
                 onChange={(e) => setZipCode(e.target.value)}
                 minLength="5"
@@ -148,13 +148,7 @@ const CreateWarehousePage = ({ createWarehouse }) => {
               <Text id="new-sq-ft" as="div" size="4" mb="1" weight="bold">
                 Square Footage
               </Text>
-              <TextField.Root
-                required
-                placeholder="Enter the usable square footage"
-                value={squareFt}
-                onChange={(e) => setSquareFt(e.target.value)}
-                pattern="^[0-9]+$"
-              />
+              <TextField.Root required placeholder="12000" value={squareFt} onChange={(e) => setSquareFt(e.target.value)} pattern="^[0-9]+$" />
             </label>
           </Flex>
 

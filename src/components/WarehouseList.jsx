@@ -1,10 +1,10 @@
-import { Box, Button, Flex, Heading, IconButton, Tooltip } from '@radix-ui/themes';
+import { Box, Flex, Heading, IconButton, Tooltip } from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
+import { FaPlusCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Spinner from './Spinner';
 import WarehouseCard from './WarehouseCard';
-import { FaPlusCircle } from 'react-icons/fa';
 
 const WarehouseList = ({ changeSelectedWarehouse, selectedWarehouse }) => {
   const [warehouses, setWarehouses] = useState([]);

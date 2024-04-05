@@ -1,10 +1,10 @@
-import { Box, Button, Flex, Heading, IconButton, Section, Skeleton, Text, Tooltip } from '@radix-ui/themes';
+import { Box, Flex, Heading, IconButton, Tooltip } from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
+import { FaPlusCircle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Spinner from './Spinner';
 import UnitCard from './UnitCard';
-import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
-import { FaPlusCircle } from 'react-icons/fa';
 
 const UnitList = ({ selectedWarehouse }) => {
   const [units, setUnits] = useState([]);
@@ -22,7 +22,6 @@ const UnitList = ({ selectedWarehouse }) => {
           toast.error('Error fetching data, please refresh the app');
         } else if (response.status === 404) {
           toast.info('That warehouse has no current stock');
-          // setLoading(false);
         }
         const data = await response.json();
         setUnits(data);
@@ -32,8 +31,8 @@ const UnitList = ({ selectedWarehouse }) => {
       }
     };
 
-    setTimeout(getUnits, 1400);
-  }, [units, selectedWarehouse]);
+    setTimeout(getUnits, 200);
+  }, [selectedWarehouse]);
 
   return (
     <Flex direction="column" my="4" gap="4" minWidth="300px">

@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { FaExclamationTriangle } from 'react-icons/fa';
 import { Box, Button, Container, Flex, Heading, Text } from '@radix-ui/themes';
+import { FaExclamationTriangle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const NotFoundPage = () => {
   return (

@@ -2,11 +2,11 @@ import { AlertDialog, Box, Button, Container, Dialog, Flex, Heading, IconButton,
 import { useEffect, useState } from 'react';
 import { TbTransferOut } from 'react-icons/tb';
 import { Link, useLoaderData, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import gpuRender400 from '../assets/gpu-render-01.png';
 import gpuRender600Super from '../assets/gpu-render-02.png';
 import gpuRender800ExtremePi from '../assets/gpu-render-03.png';
 import gpuRenderGeneric from '../assets/gpu-render-default.png';
-import { toast } from 'react-toastify';
 
 const UnitPage = ({ deleteUnit }) => {
   const navigate = useNavigate();

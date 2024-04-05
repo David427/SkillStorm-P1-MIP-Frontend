@@ -9,7 +9,7 @@ const MainLayout = () => {
       <Header />
       {/* This component shows any components encapsulated by the layout */}
       <Outlet />
-      <ToastContainer position="top-center" theme="light" transition={Slide} />
+      <ToastContainer position="top-center" theme="light" transition={Slide} pauseOnFocusLoss={false} />
     </>
   );
 };
