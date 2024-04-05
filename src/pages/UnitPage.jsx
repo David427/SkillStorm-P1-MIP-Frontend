@@ -9,15 +9,17 @@ import gpuRender800ExtremePi from '../assets/gpu-render-03.png';
 import gpuRenderGeneric from '../assets/gpu-render-default.png';
 
 const UnitPage = ({ deleteUnit }) => {
-  const navigate = useNavigate();
   const unit = useLoaderData();
   const [modalOpen, setModalOpen] = useState(false);
   const [newWarehouseId, setNewWarehouseId] = useState('');
   const [genericModel, setGenericModel] = useState(true);
   const currentWarehouseId = unit.warehouse.idCode;
+  const [successfulRequest, setSuccessfulRequest] = useState(false);
 
   // Used for the loader below
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   // Query params for PATCH request
   const data = new URLSearchParams();
@@ -43,15 +45,23 @@ const UnitPage = ({ deleteUnit }) => {
         });
 
         if (response.status === 200) {
-          toast.success('Unit transferred successfully');
-        } else if (response.status === 422 || !response.ok()) {
+          toast.success('Unit transferred successfully.');
+          setSuccessfulRequest(() => {
+            navigate('/');
+          });
+        } else if (response.status === 422) {
           response.text().then((text) => {
             toast.error(`${text}`);
           });
+          setSuccessfulRequest(false);
+        } else if (response.status === 404) {
+          toast.error('That warehouse does not exist.');
+          setSuccessfulRequest(false);
         }
         return;
       } catch (err) {
-        toast.error('Error transferring unit, please try again');
+        toast.error('Error transferring unit, please try again.');
+        setSuccessfulRequest(false);
       }
     };
 

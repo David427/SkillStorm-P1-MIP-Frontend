@@ -1,14 +1,16 @@
 import { Box, Button, Container, Flex, Heading, Section, Select, Text, TextField } from '@radix-ui/themes';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-const CreateWarehousePage = ({ createWarehouse }) => {
+const CreateWarehousePage = ({}) => {
   const [idCode, setIdCode] = useState('');
   const [streetAddress, setStreetAddress] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('AL');
   const [zipCode, setZipCode] = useState('');
   const [squareFt, setSquareFt] = useState('');
+  const [successfulRequest, setSuccessfulRequest] = useState(false);
 
   // Stock is not chosen at creation; it will be 0
   // Capacity is calculated from sq ft (arbitrarily divided by 400)
@@ -17,6 +19,37 @@ const CreateWarehousePage = ({ createWarehouse }) => {
   const capacity = Math.floor(squareFt / 400);
 
   const navigate = useNavigate();
+
+  const BASE_URL = 'http://localhost:8080';
+
+  const createWarehouse = async (newWarehouse) => {
+    try {
+      const response = await fetch(`${BASE_URL}/warehouses`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newWarehouse)
+      });
+
+      if (response.status === 201 || response.ok) {
+        toast.success('Warehouse added successfully');
+        setSuccessfulRequest(() => {
+          navigate('/');
+        });
+      } else if (response.status === 422) {
+        response.text().then((text) => {
+          toast.error(`${text}`);
+        });
+        setSuccessfulRequest(false);
+      }
+
+      return;
+    } catch (err) {
+      toast.error('Error adding warehouse, please try again');
+      setSuccessfulRequest(false);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,7 +66,6 @@ const CreateWarehousePage = ({ createWarehouse }) => {
     };
 
     createWarehouse(newWarehouse);
-    return navigate('/');
   };
 
   return (
@@ -50,7 +82,14 @@ const CreateWarehousePage = ({ createWarehouse }) => {
               <Text as="div" size="4" mb="1" weight="bold">
                 ID Code
               </Text>
-              <TextField.Root id="new-id-code" placeholder="CTY-WH-01" required value={idCode} onChange={(e) => setIdCode(e.target.value)} />
+              <TextField.Root
+                id="new-id-code"
+                placeholder="CTY-WH-01"
+                required
+                value={idCode}
+                onChange={(e) => setIdCode(e.target.value)}
+                pattern="^[A-Za-z]+-WH-\d\d$"
+              />
             </label>
             <label htmlFor="new-street-address">
               <Text as="div" size="4" mb="1" weight="bold">

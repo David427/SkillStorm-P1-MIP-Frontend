@@ -45,7 +45,7 @@ const UnitList = ({ selectedWarehouse }) => {
               GPU Units
             </Heading>
             <Box>
-              <Link to="/create-warehouse">
+              <Link to="/create-unit">
                 <Tooltip content="Create a new unit">
                   <IconButton size="4">
                     <FaPlusCircle size="36px" />
